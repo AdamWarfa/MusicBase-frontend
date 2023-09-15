@@ -1,13 +1,27 @@
 "use strict";
 
 //Importering af funktioner/variable
-import { updateGrid, chosenArtist, artists, favoriteList } from "./main.js";
+import { updateGrid, artists } from "./main.js";
 
 //Endpoint
 const endpoint = "http://localhost:5000";
 
 //Fetch den fulde liste af kunstnere
 async function getArtists(endpointValue) {
+  const res = await fetch(endpointValue);
+  const data = res.json();
+  return data;
+}
+
+// fetch den fulde liste af tracks
+async function getTracks(endpointValue) {
+  const res = await fetch(endpointValue);
+  const data = res.json();
+  return data;
+} 
+
+// fetch den fulde liste af albums
+async function getAlbums(endpointValue) {
   const res = await fetch(endpointValue);
   const data = res.json();
   return data;
@@ -109,4 +123,4 @@ async function deleteArtist(id, artist) {
 }
 
 //Eksportering af funktioner/variable
-export { getArtists, createArtist, updateArtist, deleteArtist, endpoint };
+export { getArtists, createArtist, updateArtist, deleteArtist, getAlbums, getTracks, endpoint };
