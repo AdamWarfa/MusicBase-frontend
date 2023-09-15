@@ -4,7 +4,7 @@
 import { updateGrid, chosenArtist, artists, favoriteList } from "./main.js";
 
 //Endpoint
-const endpoint = "http://localhost:3000";
+const endpoint = "http://localhost:5000";
 
 //Fetch den fulde liste af kunstnere
 async function getArtists(endpointValue) {
