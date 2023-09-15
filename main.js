@@ -49,14 +49,12 @@ function showArtists(artistList) {
     document.querySelector("#grid-container").insertAdjacentHTML(
       "beforeend",
       /*HTML*/ `
-
-    
         <article class="grid-box">
 
             <h2 class="artist-name">${artist.name}</h2>
             <div class="card-content-first">
               <img class="artist-image" src=${artist.image} alt="" />
-              <p class="artist-genres">${artist.genres}</p>
+               <p class="artist-genres">${artist.genres}</p>
               <p class="artist-desc">${artist.shortDescription}</p>
               <p class="artist-see-more press-this">SEE MORE</p>
             </div>
