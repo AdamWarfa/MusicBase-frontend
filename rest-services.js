@@ -4,7 +4,7 @@
 import { updateGrid, chosenArtist, artists, favoriteList } from "./main.js";
 
 //Endpoint
-const endpoint = "http://localhost:3000";
+const endpoint = "http://localhost:5000";
 
 //Fetch den fulde liste af kunstnere
 async function getArtists(endpointValue) {
@@ -26,7 +26,16 @@ async function createArtist(event) {
   const website = form.newWebsite.value;
   const image = form.newImage.value;
 
-  const newArtist = { name, activeSince, genres, labels, birthdate, shortDescription, website, image };
+  const newArtist = {
+    name,
+    activeSince,
+    genres,
+    labels,
+    birthdate,
+    shortDescription,
+    website,
+    image,
+  };
   const artistJson = JSON.stringify(newArtist);
   const response = await fetch(`${endpoint}/artists`, {
     method: "POST",
@@ -58,7 +67,16 @@ async function updateArtist(event) {
   const image = form.updateImage.value;
   console.log(chosenArtist.id);
 
-  const updatedArtist = { name, activeSince, genres, labels, birthdate, shortDescription, website, image };
+  const updatedArtist = {
+    name,
+    activeSince,
+    genres,
+    labels,
+    birthdate,
+    shortDescription,
+    website,
+    image,
+  };
   const artistJson = JSON.stringify(updatedArtist);
   const response = await fetch(`${endpoint}/artists/${chosenArtist.id}`, {
     method: "PUT",
