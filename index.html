@@ -15,7 +15,7 @@
   </head>
   <body>
     <header>
-      <h1>ARTIST-APP</h1>
+      <h1>MUSICBASE</h1>
     </header>
     <main>
       <div id="top-btns">
@@ -30,8 +30,7 @@
         </a>
       </div>
       <nav id="navbar">
-        <a id="home-link" href="#" rel="noopener noreferrer">HOME</a>
-        <a id="favorite-link" href="#" rel="noopener noreferrer">FAVORITES</a>
+        <a id="home-link" href="#" rel="noopener noreferrer"></a>
       </nav>
 
       <dialog id="create-dialog">
@@ -57,35 +56,11 @@
           <button type="button" id="btn-close-create">CLOSE</button>
         </form>
       </dialog>
-      <section id="grid-container"></section>
-      <dialog id="update-dialog">
-        <h2>EDIT ARTIST</h2>
-        <form action="" id="update-form">
-          <label for="updateName">Name</label>
-          <input type="text" name="updateName" id="updateName" placeholder="Change Name..." />
-          <label for="updateGenres">Genres</label>
-          <input type="text" name="updateGenres" id="updateGenres" placeholder="Change Genres..." />
-          <label for="updateLabels">Labels</label>
-          <input type="text" name="updateLabels" id="updateLabels" placeholder="Change Labels..." />
-          <label for="updateDesc">Description</label>
-          <input type="text" name="updateDesc" id="updateDesc" placeholder="Change Description..." />
-          <label for="updateBirthdate">Birthdate</label>
-          <input type="date" name="updateBirthdate" id="updateBirthdate" placeholder="Change Birthdate..." />
-          <label for="updateActive">Debut Year</label>
-          <input type="number" name="updateActive" id="updateActive" placeholder="Change Debut Year..." />
-          <label for="updateWebsite">Website</label>
-          <input type="url" name="updateWebsite" id="updateWebsite" placeholder="Change Website..." />
-          <label for="updateImage">Image</label>
-          <input type="url" name="updateImage" id="updateImage" placeholder="Change Image URL..." />
-          <button>SUBMIT</button>
-          <button type="button" id="btn-close-update">CLOSE</button>
-        </form>
-      </dialog>
-      <dialog id="delete-dialog">
-        <p>Are you sure you want to delete this artist?</p>
-        <button id="btn-delete-confirm">DELETE</button>
-        <button id="btn-delete-cancel">CANCEL</button>
-      </dialog>
+      <section id="grid">
+        <section id="albums-grid-container"></section>
+        <section id="artists-grid-container"></section>
+        <section id="tracks-grid-container"></section>
+      </section>
     </main>
     <footer></footer>
     <script src="main.js" type="module"></script>
