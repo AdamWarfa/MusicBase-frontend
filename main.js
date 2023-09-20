@@ -39,7 +39,7 @@ function globalListeners() {
   document.querySelector("#home-link").addEventListener("click", goHome);
   document.querySelector("#favorite-link").addEventListener("click", goToFavorites);
   document.querySelector("#sort-select").addEventListener("change", chooseSort);
-  document.querySelector("#input-search").addEventListener("keyup", (event) => showArtists(artists.filter((artist) => artist.name.toLowerCase().includes(event.target.value.toLowerCase()))));
+  document.querySelector("#input-search").addEventListener("keyup", (event) => showArtists(artists.filter((artist) => artist.artistName.toLowerCase().includes(event.target.value.toLowerCase()))));
 }
 
 //Dom manipulation på kunstnerlisten
