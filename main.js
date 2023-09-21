@@ -16,9 +16,9 @@ async function initApp() {
   artists = await getArtists(`${endpoint}/artists`);
   tracks = await getTracks(`${endpoint}/tracks`);
   albums = await getAlbums(`${endpoint}/albums`);
-  console.log(artists);
-  console.log(tracks);
-  console.log(albums);
+  // console.log(artists);
+  // console.log(tracks);
+  // console.log(albums);
   globalListeners();
 
   //Viser listen grafisk
@@ -28,21 +28,27 @@ async function initApp() {
 //EventListeners
 function globalListeners() {
   document.querySelector("#sort-select").addEventListener("change", chooseSort);
-  document
-    .querySelector("#input-search")
-    .addEventListener("keyup", (event) =>
-      showArtists(
-        artists.filter((artist) =>
-          artist.name.toLowerCase().includes(event.target.value.toLowerCase())
-        )
-      )
-    );
+  document.querySelector("#input-search").addEventListener("keyup", (event) => searchAll(event.target.value));
+}
+
+function searchAll(eventValue) {
+  const keysSomeArtist = ["artistName", "shortDescription"];
+  const keysSomeAlbums = ["albumTitle"];
+  const keysSomeTracks = ["trackName"];
+  const valuesSome = [eventValue];
+
+  const resultSomeArtists = artists.filter((artist) => keysSomeArtist.some((key) => valuesSome.some((searchValue) => artist[key].toLowerCase().includes(searchValue.toLowerCase()))));
+  const resultSomeAlbums = albums.filter((album) => keysSomeAlbums.some((key) => valuesSome.some((searchValue) => album[key].toLowerCase().includes(searchValue.toLowerCase()))));
+  const resultSomeTracks = tracks.filter((track) => keysSomeTracks.some((key) => valuesSome.some((searchValue) => track[key].toLowerCase().includes(searchValue.toLowerCase()))));
+  showArtists(resultSomeArtists);
+  showAlbums(resultSomeAlbums);
+  showTracks(resultSomeTracks);
 }
 
 //Dom manipulation på kunstnerlisten
 function showArtists(artistList) {
-  document.querySelector("#artists-grid-container").innerHTML =
-    '<h2 class="gridTitle">Artists</h2>';
+  document.querySelector("#artists-grid-container").innerHTML = '<h2 class="gridTitle">Artists<h2>';
+
   for (const artist of artistList) {
     document.querySelector("#artists-grid-container").insertAdjacentHTML(
       "beforeend",
@@ -61,9 +67,9 @@ function showArtists(artistList) {
   }
 }
 
-function showAllTrack(tracklist) {
-  document.querySelector("#tracks-grid-container").innerHTML =
-    '<h2 class="gridTitle">Tracks<h2>';
+function showTracks(tracklist) {
+  document.querySelector("#tracks-grid-container").innerHTML = '<h2 class="gridTitle">Tracks<h2>';
+
   for (const track of tracklist) {
     document.querySelector("#tracks-grid-container").insertAdjacentHTML(
       "beforeend",
@@ -77,9 +83,9 @@ function showAllTrack(tracklist) {
   }
 }
 
-function showAlbum(albumlist) {
-  document.querySelector("#albums-grid-container").innerHTML =
-    '<h2 class="gridTitle">Albums</h2>';
+function showAlbums(albumlist) {
+  document.querySelector("#albums-grid-container").innerHTML = '<h2 class="gridTitle">Albums<h2>';
+
   for (const album of albumlist) {
     document.querySelector("#albums-grid-container").insertAdjacentHTML(
       "beforeend",
@@ -96,32 +102,26 @@ function showAlbum(albumlist) {
 
 function updateGrid() {
   showArtists(artists);
-  showAllTrack(tracks);
-  showAlbum(albums);
+  showTracks(tracks);
+  showAlbums(albums);
 }
 
 //Vælg og kald den korrekte sorteingsfunktion baseret på valgt value i dropdownmenuen
 function chooseSort() {
   let sortValue = document.querySelector("#sort-select").value;
-  console.log(sortValue);
+
   switch (sortValue) {
     case "name":
-      artists.sort(sortByName);
-      console.log(artists);
+      artists.reverse();
+      albums.reverse();
+      tracks.reverse();
+      updateGrid();
+      break;
+    case "reverse":
+      artists.reverse();
+      albums.reverse();
+      tracks.reverse();
       updateGrid();
       break;
   }
-}
-
-//Sorter efter Navn
-function sortByName(a, b) {
-  return a.name.localeCompare(b.name);
-}
-
-async function search(searchValue) {
-  showArtists(
-    artists.filter((artist) =>
-      artist.name.toLowerCase().includes(searchValue.toLowerCase())
-    )
-  );
 }
