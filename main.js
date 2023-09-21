@@ -16,9 +16,6 @@ async function initApp() {
   artists = await getArtists(`${endpoint}/artists`);
   tracks = await getTracks(`${endpoint}/tracks`);
   albums = await getAlbums(`${endpoint}/albums`);
-  // console.log(artists);
-  // console.log(tracks);
-  // console.log(albums);
   globalListeners();
 
   //Viser listen grafisk
