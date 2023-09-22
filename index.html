@@ -19,7 +19,6 @@
     </header>
     <main>
       <div id="top-btns">
-        <button id="btn-create">CREATE ARTIST</button>
         <select name="sort-select" id="sort-select">
           <option value="name">Name (A-Z)</option>
           <option value="reverse">Name (Z-A)</option>
@@ -32,30 +31,6 @@
       <nav id="navbar">
         <a id="home-link" href="#" rel="noopener noreferrer"></a>
       </nav>
-
-      <dialog id="create-dialog">
-        <h2>CREATE NEW ARTIST</h2>
-        <form action="" id="create-form">
-          <label for="newName">Name</label>
-          <input type="text" name="newName" id="newName" placeholder="Type name..." />
-          <label for="newGenres">Genres</label>
-          <input type="text" name="newGenres" id="newGenres" placeholder="Choose Genres..." />
-          <label for="newLabels">Labels</label>
-          <input type="text" name="newLabels" id="newLabels" placeholder="Choose Labels..." />
-          <label for="newDesc">Description</label>
-          <input type="text" name="newDesc" id="newDesc" placeholder="Choose Description..." />
-          <label for="newBirthdate">Birthdate</label>
-          <input type="date" name="newBirthdate" id="newBirthdate" placeholder="Change Birthdate..." />
-          <label for="newActive">Debut Year</label>
-          <input type="text" name="newActive" id="newActive" placeholder="Type debut year..." />
-          <label for="newWebsite">Website</label>
-          <input type="url" name="newWebsite" id="newWebsite" placeholder="Change Website..." />
-          <label for="newImage">Image</label>
-          <input type="url" name="newImage" id="newImage" placeholder="Change Image URL..." />
-          <button>CREATE</button>
-          <button type="button" id="btn-close-create">CLOSE</button>
-        </form>
-      </dialog>
       <section id="grid">
         <section id="albums-grid-container"></section>
         <section id="artists-grid-container"></section>
