@@ -2,33 +2,92 @@
 
 //Importering af funktioner/variable
 import { getArtists, endpoint, getTracks, getAlbums } from "./rest-services.js";
+import { TrackRenderer } from "./track-renderer.js";
+import { ArtistRenderer } from "./artist-renderer.js";
+import { AlbumRenderer } from "./album-renderer.js";
+import ListRenderer from "./list-renderer.js";
+// import { ItemRenderer } from "./itemrenderer.js";
+import { Artist, Album, Track, MusicBase } from "./classes.js";
 
 //Kør startfunktionen automatisk på load
 window.addEventListener("load", initApp);
 
 //Globale variable
-let artists;
-let tracks;
-let albums;
+const musicBase = new MusicBase();
+let trackList;
+let artistList;
+let albumList;
 
 //Fetcher kunstnerlisten og aktivierer eventListeners
 async function initApp() {
-  artists = await getArtists(`${endpoint}/artists`);
-  tracks = await getTracks(`${endpoint}/tracks`);
-  albums = await getAlbums(`${endpoint}/albums`);
+  await buildArtistList();
+  await buildAlbumList();
+  await buildTrackList();
   // console.log(artists);
   // console.log(tracks);
   // console.log(albums);
   globalListeners();
 
   //Viser listen grafisk
-  updateGrid();
+  // updateGrid();
+
+  // Vores MusicBase dele hedder trackList osv, og det gør vores kald til ListRenderer også. Ku være vi sku rename vores brug af ListRenderer til
+  // noget andet som fx... ??
+  trackList = new ListRenderer(musicBase.trackList, "#tracks-grid-container", TrackRenderer);
+  trackList.render();
+
+  artistList = new ListRenderer(musicBase.artistList, "#artists-grid-container", ArtistRenderer);
+  artistList.render();
+
+  albumList = new ListRenderer(musicBase.albumList, "#albums-grid-container", AlbumRenderer);
+  albumList.render();
+}
+
+async function buildArtistList() {
+  const fetchedArtistList = await getArtists(`${endpoint}/artists`);
+  for (let artist of fetchedArtistList) {
+    const newArtist = new Artist(artist.artistName, artist.id, artist.artistImage, artist.shortDescription);
+    console.log(musicBase.artistList);
+    musicBase.artistList.push(newArtist);
+  }
+}
+
+async function buildAlbumList() {
+  const fetchedAlbumList = await getAlbums(`${endpoint}/albums`);
+  for (let album of fetchedAlbumList) {
+    const newAlbum = new Album(album.albumTitle, album.id, album.albumCover, album.yearPublished);
+    musicBase.albumList.push(newAlbum);
+  }
+}
+async function buildTrackList() {
+  const fetchedTrackList = await getTracks(`${endpoint}/tracks`);
+  for (let track of fetchedTrackList) {
+    const newTrack = new Track(track.trackName, track.id);
+    musicBase.trackList.push(newTrack);
+  }
 }
 
 //EventListeners
 function globalListeners() {
-  document.querySelector("#sort-select").addEventListener("change", chooseSort);
   document.querySelector("#input-search").addEventListener("keyup", (event) => searchAll(event.target.value));
+
+  document.querySelector("#sort-select").addEventListener("change", () => {
+    let sortValue = document.querySelector("#sort-select").value;
+    console.log(sortValue);
+    if (sortValue == "name") {
+      let sortBy = "name";
+      let sortDir = "asc";
+      albumList.sort(sortBy, sortDir);
+      artistList.sort(sortBy, sortDir);
+      trackList.sort(sortBy, sortDir);
+    } else if (sortValue == "reverse") {
+      let sortBy = "name";
+      let sortDir = "desc";
+      albumList.sort(sortBy, sortDir);
+      artistList.sort(sortBy, sortDir);
+      trackList.sort(sortBy, sortDir);
+    }
+  });
 }
 
 function searchAll(eventValue) {
@@ -37,91 +96,10 @@ function searchAll(eventValue) {
   const keysSomeTracks = ["trackName"];
   const valuesSome = [eventValue];
 
-  const resultSomeArtists = artists.filter((artist) => keysSomeArtist.some((key) => valuesSome.some((searchValue) => artist[key].toLowerCase().includes(searchValue.toLowerCase()))));
-  const resultSomeAlbums = albums.filter((album) => keysSomeAlbums.some((key) => valuesSome.some((searchValue) => album[key].toLowerCase().includes(searchValue.toLowerCase()))));
-  const resultSomeTracks = tracks.filter((track) => keysSomeTracks.some((key) => valuesSome.some((searchValue) => track[key].toLowerCase().includes(searchValue.toLowerCase()))));
-  showArtists(resultSomeArtists);
-  showAlbums(resultSomeAlbums);
-  showTracks(resultSomeTracks);
-}
-
-//Dom manipulation på kunstnerlisten
-function showArtists(artistList) {
-  document.querySelector("#artists-grid-container").innerHTML = '<h2 class="gridTitle">Artists<h2>';
-
-  for (const artist of artistList) {
-    document.querySelector("#artists-grid-container").insertAdjacentHTML(
-      "beforeend",
-      /*HTML*/ `
-        <article class="grid-box">
-
-            <h2 class="artist-name">${artist.artistName}</h2>
-            <div class="card-content-first">
-              <img class="artist-image" src=${artist.artistImage} alt="" />
-              <p class="artist-desc">${artist.shortDescription}</p>
-            </div>
-
-        </article>
-    `
-    );
-  }
-}
-
-function showTracks(tracklist) {
-  document.querySelector("#tracks-grid-container").innerHTML = '<h2 class="gridTitle">Tracks<h2>';
-
-  for (const track of tracklist) {
-    document.querySelector("#tracks-grid-container").insertAdjacentHTML(
-      "beforeend",
-      /*html*/ `
-      <article class="grid-box">
-
-    <h2 class="artist-name">${track.trackName}</h2>
-    </article>
-    `
-    );
-  }
-}
-
-function showAlbums(albumlist) {
-  document.querySelector("#albums-grid-container").innerHTML = '<h2 class="gridTitle">Albums<h2>';
-
-  for (const album of albumlist) {
-    document.querySelector("#albums-grid-container").insertAdjacentHTML(
-      "beforeend",
-      /*html*/ `
-    <article class="grid-box">
-    <h2 class="album-name">${album.albumTitle}</h2>
-    <img class="album-image" src=${album.albumCover} alt=""/>
-    <p class="album-year">${album.yearPublished}</p>
-    </article>
-    `
-    );
-  }
-}
-
-function updateGrid() {
-  showArtists(artists);
-  showTracks(tracks);
-  showAlbums(albums);
-}
-
-//Vælg og kald den korrekte sorteingsfunktion baseret på valgt value i dropdownmenuen
-function chooseSort() {
-  let sortValue = document.querySelector("#sort-select").value;
-
-  switch (sortValue) {
-    case "name":
-      artists.reverse();
-      albums.reverse();
-      tracks.reverse();
-      updateGrid();
-      break;
-    case "reverse":
-      artists.reverse();
-      albums.reverse();
-      tracks.reverse();
-      updateGrid();
-      break;
-  }
+  const resultSomeArtists = musicBase.artistList.filter((artist) => keysSomeArtist.some((key) => valuesSome.some((searchValue) => artist[key].toLowerCase().includes(searchValue.toLowerCase()))));
+  const resultSomeAlbums = musicBase.albumList.filter((album) => keysSomeAlbums.some((key) => valuesSome.some((searchValue) => album[key].toLowerCase().includes(searchValue.toLowerCase()))));
+  const resultSomeTracks = musicBase.trackList.filter((track) => keysSomeTracks.some((key) => valuesSome.some((searchValue) => track[key].toLowerCase().includes(searchValue.toLowerCase()))));
+  trackList.render(resultSomeTracks);
+  artistList.render(resultSomeArtists);
+  albumList.render(resultSomeAlbums);
 }
