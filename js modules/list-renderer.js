@@ -13,21 +13,17 @@ export default class ListRenderer {
         item[this.filterProperty] == this.filterValue
     );
 
-    try {
-      for (const item of filteredList) {
-        const renderer = new this.itemRenderer();
-        renderer.item = item;
-        const html = renderer.render();
-        this.container.insertAdjacentHTML("beforeend", html);
+    for (const item of filteredList) {
+      const renderer = new this.itemRenderer();
+      renderer.item = item;
+      const html = renderer.render();
+      this.container.insertAdjacentHTML("beforeend", html);
 
-        const element = this.container.lastElementChild;
+      const element = this.container.lastElementChild;
 
-        if (renderer.postRender) {
-          renderer.postRender(element);
-        }
+      if (renderer.postRender) {
+        renderer.postRender(element);
       }
-    } catch (error) {
-      console.log(error);
     }
   }
 
