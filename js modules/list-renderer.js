@@ -24,17 +24,20 @@ export default class ListRenderer {
 
     let renderers = this.renderers;
 
-    // const filteredList = renderers.filter((renderer) => renderer.item.active == "Ja");
-    // console.log(filteredList);
-
-    for (const renderer of renderers) {
+    let filteredList;
+    if (this.filterProperty == "") {
+      filteredList = renderers;
+    } else {
+      filteredList = renderers.filter((item) => item.item[this.filterProperty] == this.filterValue);
+    }
+    for (const renderer of filteredList) {
       try {
         const html = renderer.render();
         this.container.insertAdjacentHTML("beforeend", html);
 
-        const element = this.container.lastElementChild;
-
         if (renderer.postRender) {
+          const element = this.container.lastElementChild;
+
           renderer.postRender(element);
         }
       } catch (error) {
@@ -57,28 +60,14 @@ export default class ListRenderer {
     this.clear();
     this.render();
   }
+
+  filter(filterProperty, filterValue) {
+    console.log(filterProperty, filterValue);
+    // simply remember the settings
+    this.filterProperty = filterProperty;
+    this.filterValue = filterValue;
+
+    // and re-render the list - this will do the actual filtering
+    this.render();
+  }
 }
-
-//   sort(sortBy, sortDir) {
-//     try {
-//       if (this.sortBy === sortBy && this.sortDir === "asc") {
-//         list = list.reverse();
-//         this.sortDir = "desc";
-//       } else if (this.sortBy === sortBy && this.sortDir === "desc") {
-//         list = list.reverse();
-//         this.sortDir = "asc";
-//       } else {
-//         if (sortType == "number") {
-//           list.sort((a, b) => a[`${sortBy}`] - b[`${sortBy}`]);
-//         } else if (sortType == "string") {
-//           list.sort((a, b) => a[`${sortBy}`].localeCompare(b[`${sortBy}`]));
-//         }
-//       }
-
-//       console.log(list);
-//     } catch (error) {}
-//     this.sortBy = sortBy;
-//     this.clear();
-
-//     this.render();
-//   }

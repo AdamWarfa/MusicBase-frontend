@@ -42,6 +42,17 @@ async function initApp() {
 
   albumList = new ListRenderer(musicBase.albumList, "#albums-grid-container", AlbumRenderer);
   albumList.render();
+
+  document.querySelector("#input-search").addEventListener("input", (event) => {
+    const searchValue = event.target.value;
+    console.log(searchValue);
+    trackList.filter("name", searchValue);
+    trackList.render();
+    trackList.filter("name", searchValue);
+    artistList.render();
+    trackList.filter("name", searchValue);
+    albumList.render();
+  });
 }
 
 async function buildArtistList() {
@@ -97,8 +108,6 @@ async function buildTrackList() {
 
 //EventListeners
 function globalListeners() {
-  document.querySelector("#input-search").addEventListener("keyup", (event) => searchAll(event.target.value));
-
   document.querySelector("#sort-select").addEventListener("change", () => {
     let sortValue = document.querySelector("#sort-select").value;
     console.log(sortValue);
@@ -116,20 +125,6 @@ function globalListeners() {
       trackList.sort(sortBy, sortDir);
     }
   });
-}
-
-function searchAll(eventValue) {
-  const keysSomeArtist = ["artistName", "shortDescription"];
-  const keysSomeAlbums = ["albumTitle"];
-  const keysSomeTracks = ["trackName"];
-  const valuesSome = [eventValue];
-
-  const resultSomeArtists = musicBase.artistList.filter((artist) => keysSomeArtist.some((key) => valuesSome.some((searchValue) => artist[key].toLowerCase().includes(searchValue.toLowerCase()))));
-  const resultSomeAlbums = musicBase.albumList.filter((album) => keysSomeAlbums.some((key) => valuesSome.some((searchValue) => album[key].toLowerCase().includes(searchValue.toLowerCase()))));
-  const resultSomeTracks = musicBase.trackList.filter((track) => keysSomeTracks.some((key) => valuesSome.some((searchValue) => track[key].toLowerCase().includes(searchValue.toLowerCase()))));
-  trackList.render(resultSomeTracks);
-  artistList.render(resultSomeArtists);
-  albumList.render(resultSomeAlbums);
 }
 
 export { musicBase };
