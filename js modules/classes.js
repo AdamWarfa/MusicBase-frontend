@@ -1,5 +1,5 @@
 import { musicBase } from "./main.js";
-import { endpoint } from "./rest-services.js";
+import { endpoint } from "./main.js";
 
 class Artist {
   constructor(name, id, image, shortDescription) {
@@ -10,7 +10,7 @@ class Artist {
     this.albums;
   }
   async addArtistsToAlbums(artistId) {
-    const fetchedList = await getTracks(`${endpoint}/artists/${artistId}/albums`);
+    const fetchedList = await musicBase.getList(`${endpoint}/artists/${artistId}/albums`);
 
     const albumIdList = this.findAlbumId(fetchedList);
 
@@ -34,12 +34,29 @@ class Artist {
 }
 
 class Album {
-  constructor(name, id, cover, yearPublished, tracks) {
+  constructor(name, id, cover, yearPublished, oldTracks) {
     this.name = name;
     this.albumId = id;
     this.albumCover = cover;
     this.yearPublished = yearPublished;
-    this.tracks = tracks;
+    this.tracks = oldTracks;
+  }
+  // setTracks() {
+  //   const newTracks = [];
+  //   for (let track of this.tracks) {
+  //     const newTrack = new Track(track.trackName, track.trackId);
+  //     newTracks.push(newTrack);
+  //   }
+  //   this.tracks = newTracks;
+  // }
+
+  getArtistId() {
+    const artist = musicBase.artistList.find((artist) => artist.albums.includes(this));
+    return artist.artistId;
+  }
+
+  setArtistId(artistId) {
+    this.artistId = artistId;
   }
 }
 
@@ -47,8 +64,17 @@ class Track {
   constructor(name, id) {
     this.name = name;
     this.trackId = id;
-    this.albumId;
   }
+  // getAlbumId() {
+  //   const album = musicBase.albumList.find((album) => album.tracks == this);
+  //   console.log(this);
+  //   console.log(musicBase.albumList);
+  //   console.log(album);
+  //   return album.albumId;
+  // }
+  // setAlbumId(albumId) {
+  //   this.albumId = albumId;
+  // }
 }
 
 class MusicBase {

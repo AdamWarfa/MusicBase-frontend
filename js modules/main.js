@@ -24,6 +24,15 @@ async function initApp() {
   await buildAlbumList();
   await buildArtistList();
 
+  for (let album of musicBase.albumList) {
+    // album.setTracks();
+    album.setArtistId(album.getArtistId());
+  }
+
+  // for (let track of musicBase.trackList) {
+  //   track.getAlbumId();
+  // }
+
   globalListeners();
 
   // Vores MusicBase dele hedder trackList osv, og det gør vores kald til ListRenderer også. Ku være vi sku rename vores brug af ListRenderer til
@@ -45,7 +54,6 @@ async function buildArtistList() {
     musicBase.artistList.push(newArtist);
     await newArtist.addArtistsToAlbums(artist.id);
   }
-  console.log(musicBase.artistList);
 }
 
 async function buildAlbumList() {
@@ -54,7 +62,6 @@ async function buildAlbumList() {
     const newAlbum = new Album(album.albumTitle, album.id, album.albumCover, album.yearPublished, album.tracks);
     musicBase.albumList.push(newAlbum);
   }
-  console.log(musicBase.albumList);
 }
 async function buildTrackList() {
   const fetchedTrackList = await musicBase.getList(`${endpoint}/tracks`);
@@ -98,4 +105,4 @@ function globalListeners() {
   });
 }
 
-export { musicBase };
+export { musicBase, endpoint, trackList, artistList, albumList };

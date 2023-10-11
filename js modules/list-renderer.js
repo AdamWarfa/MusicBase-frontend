@@ -37,6 +37,7 @@ export default class ListRenderer {
 
         if (renderer.postRender) {
           const element = this.container.lastElementChild;
+          // const button = document.querySelector(".btn-connect").lastElementChild;
 
           renderer.postRender(element);
         }
@@ -47,7 +48,6 @@ export default class ListRenderer {
   }
 
   sort(sortBy, sortDir) {
-    console.log(this.items);
     if (sortBy == "name" && sortDir == "asc") {
       this.items.sort((a, b) => a.name.localeCompare(b.name));
       this.sortDir = "asc";
@@ -62,8 +62,6 @@ export default class ListRenderer {
   }
 
   filter(filterProperty, filterValue) {
-    console.log(filterProperty, filterValue);
-
     this.filterProperty = filterProperty;
     this.filterValue = filterValue;
 
