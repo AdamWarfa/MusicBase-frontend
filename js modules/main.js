@@ -20,9 +20,10 @@ let albumList;
 
 //Fetcher kunstnerlisten og aktivierer eventListeners
 async function initApp() {
-  await buildArtistList();
-  await buildAlbumList();
   await buildTrackList();
+  await buildAlbumList();
+  await buildArtistList();
+
   // console.log(artists);
   // console.log(tracks);
   // console.log(albums);
@@ -47,9 +48,10 @@ async function buildArtistList() {
   const fetchedArtistList = await getArtists(`${endpoint}/artists`);
   for (let artist of fetchedArtistList) {
     const newArtist = new Artist(artist.artistName, artist.id, artist.artistImage, artist.shortDescription);
-    console.log(musicBase.artistList);
     musicBase.artistList.push(newArtist);
+    await newArtist.addArtistsToAlbums(artist.id);
   }
+  console.log(musicBase.artistList);
 }
 
 async function buildAlbumList() {
@@ -68,6 +70,30 @@ async function buildTrackList() {
     musicBase.trackList.push(newTrack);
   }
 }
+
+// async function addArtistsToAlbums(artistId) {
+//   const fetchedList = await getTracks(`${endpoint}/artists/${artistId}/albums`);
+
+//   const albumIdList = findAlbumId(fetchedList);
+
+//   const albumByArtistList = [];
+//   for (const albumId of albumIdList) {
+//     const foundAlbum = musicBase.albumList.find((album) => album.albumId == albumId);
+//     albumByArtistList.push(foundAlbum);
+//   }
+//   console.log(albumByArtistList);
+//   return albumByArtistList;
+// }
+
+// function findAlbumId(artistAlbumList) {
+//   const albumIdList = [];
+//   for (let item of artistAlbumList) {
+//     const albumId = item.albumId;
+//     albumIdList.push(albumId);
+//   }
+
+//   return albumIdList;
+// }
 
 //EventListeners
 function globalListeners() {
@@ -105,3 +131,5 @@ function searchAll(eventValue) {
   artistList.render(resultSomeArtists);
   albumList.render(resultSomeAlbums);
 }
+
+export { musicBase };
