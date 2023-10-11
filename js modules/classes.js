@@ -8,12 +8,12 @@ class Artist {
 }
 
 class Album {
-  constructor(name, id, cover, yearPublished) {
+  constructor(name, id, cover, yearPublished, tracks) {
     this.name = name;
     this.albumId = id;
     this.albumCover = cover;
     this.yearPublished = yearPublished;
-    this.tracks = [];
+    this.tracks = tracks;
     this.artist = [];
   }
 }
@@ -22,6 +22,7 @@ class Track {
   constructor(name, id) {
     this.name = name;
     this.trackId = id;
+    this.albumId;
   }
 }
 

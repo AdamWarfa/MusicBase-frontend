@@ -55,14 +55,16 @@ async function buildArtistList() {
 async function buildAlbumList() {
   const fetchedAlbumList = await getAlbums(`${endpoint}/albums`);
   for (let album of fetchedAlbumList) {
-    const newAlbum = new Album(album.albumTitle, album.id, album.albumCover, album.yearPublished);
+    const newAlbum = new Album(album.albumTitle, album.id, album.albumCover, album.yearPublished, album.tracks);
     musicBase.albumList.push(newAlbum);
   }
+  console.log(musicBase.albumList);
 }
 async function buildTrackList() {
   const fetchedTrackList = await getTracks(`${endpoint}/tracks`);
   for (let track of fetchedTrackList) {
     const newTrack = new Track(track.trackName, track.id);
+
     musicBase.trackList.push(newTrack);
   }
 }
