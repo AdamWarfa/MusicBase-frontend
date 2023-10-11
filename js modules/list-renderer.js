@@ -28,7 +28,7 @@ export default class ListRenderer {
     if (this.filterProperty == "") {
       filteredList = renderers;
     } else {
-      filteredList = renderers.filter((item) => item.item[this.filterProperty] == this.filterValue);
+      filteredList = renderers.filter((item) => item.item[this.filterProperty].toLowerCase().includes(this.filterValue.toLowerCase()));
     }
     for (const renderer of filteredList) {
       try {
@@ -63,11 +63,11 @@ export default class ListRenderer {
 
   filter(filterProperty, filterValue) {
     console.log(filterProperty, filterValue);
-    // simply remember the settings
+
     this.filterProperty = filterProperty;
     this.filterValue = filterValue;
 
-    // and re-render the list - this will do the actual filtering
+    this.clear();
     this.render();
   }
 }

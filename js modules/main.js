@@ -24,13 +24,7 @@ async function initApp() {
   await buildAlbumList();
   await buildArtistList();
 
-  // console.log(artists);
-  // console.log(tracks);
-  // console.log(albums);
   globalListeners();
-
-  //Viser listen grafisk
-  // updateGrid();
 
   // Vores MusicBase dele hedder trackList osv, og det gør vores kald til ListRenderer også. Ku være vi sku rename vores brug af ListRenderer til
   // noget andet som fx... ??
@@ -42,17 +36,6 @@ async function initApp() {
 
   albumList = new ListRenderer(musicBase.albumList, "#albums-grid-container", AlbumRenderer);
   albumList.render();
-
-  document.querySelector("#input-search").addEventListener("input", (event) => {
-    const searchValue = event.target.value;
-    console.log(searchValue);
-    trackList.filter("name", searchValue);
-    trackList.render();
-    trackList.filter("name", searchValue);
-    artistList.render();
-    trackList.filter("name", searchValue);
-    albumList.render();
-  });
 }
 
 async function buildArtistList() {
@@ -82,32 +65,9 @@ async function buildTrackList() {
   }
 }
 
-// async function addArtistsToAlbums(artistId) {
-//   const fetchedList = await getTracks(`${endpoint}/artists/${artistId}/albums`);
-
-//   const albumIdList = findAlbumId(fetchedList);
-
-//   const albumByArtistList = [];
-//   for (const albumId of albumIdList) {
-//     const foundAlbum = musicBase.albumList.find((album) => album.albumId == albumId);
-//     albumByArtistList.push(foundAlbum);
-//   }
-//   console.log(albumByArtistList);
-//   return albumByArtistList;
-// }
-
-// function findAlbumId(artistAlbumList) {
-//   const albumIdList = [];
-//   for (let item of artistAlbumList) {
-//     const albumId = item.albumId;
-//     albumIdList.push(albumId);
-//   }
-
-//   return albumIdList;
-// }
-
 //EventListeners
 function globalListeners() {
+  //Sorteringsfunktion
   document.querySelector("#sort-select").addEventListener("change", () => {
     let sortValue = document.querySelector("#sort-select").value;
     console.log(sortValue);
@@ -124,6 +84,17 @@ function globalListeners() {
       artistList.sort(sortBy, sortDir);
       trackList.sort(sortBy, sortDir);
     }
+  });
+
+  //Søgefunktion
+  document.querySelector("#input-search").addEventListener("input", (event) => {
+    const searchValue = event.target.value;
+
+    trackList.filter("name", searchValue);
+
+    albumList.filter("name", searchValue);
+
+    artistList.filter("name", searchValue);
   });
 }
 
