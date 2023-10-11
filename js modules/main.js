@@ -1,7 +1,6 @@
 "use strict";
 
 //Importering af funktioner/variable
-import { getArtists, endpoint, getTracks, getAlbums } from "./rest-services.js";
 import { TrackRenderer } from "./track-renderer.js";
 import { ArtistRenderer } from "./artist-renderer.js";
 import { AlbumRenderer } from "./album-renderer.js";
@@ -13,6 +12,7 @@ import { Artist, Album, Track, MusicBase } from "./classes.js";
 window.addEventListener("load", initApp);
 
 //Globale variable
+const endpoint = "https://musicbasebe.azurewebsites.net";
 const musicBase = new MusicBase();
 let trackList;
 let artistList;
@@ -39,7 +39,7 @@ async function initApp() {
 }
 
 async function buildArtistList() {
-  const fetchedArtistList = await getArtists(`${endpoint}/artists`);
+  const fetchedArtistList = await musicBase.getList(`${endpoint}/artists`);
   for (let artist of fetchedArtistList) {
     const newArtist = new Artist(artist.artistName, artist.id, artist.artistImage, artist.shortDescription);
     musicBase.artistList.push(newArtist);
@@ -49,7 +49,7 @@ async function buildArtistList() {
 }
 
 async function buildAlbumList() {
-  const fetchedAlbumList = await getAlbums(`${endpoint}/albums`);
+  const fetchedAlbumList = await musicBase.getList(`${endpoint}/albums`);
   for (let album of fetchedAlbumList) {
     const newAlbum = new Album(album.albumTitle, album.id, album.albumCover, album.yearPublished, album.tracks);
     musicBase.albumList.push(newAlbum);
@@ -57,7 +57,7 @@ async function buildAlbumList() {
   console.log(musicBase.albumList);
 }
 async function buildTrackList() {
-  const fetchedTrackList = await getTracks(`${endpoint}/tracks`);
+  const fetchedTrackList = await musicBase.getList(`${endpoint}/tracks`);
   for (let track of fetchedTrackList) {
     const newTrack = new Track(track.trackName, track.id);
 
