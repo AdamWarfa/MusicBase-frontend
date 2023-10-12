@@ -23,9 +23,6 @@ async function initApp() {
   await buildArtistList();
   await buildAlbumList();
   await buildTrackList();
-  // console.log(artists);
-  // console.log(tracks);
-  // console.log(albums);
   globalListeners();
 
   //Viser listen grafisk
@@ -64,7 +61,6 @@ async function buildArtistList() {
       artist.artistImage,
       artist.shortDescription
     );
-    console.log(musicBase.artistList);
     musicBase.artistList.push(newArtist);
   }
 }
@@ -81,7 +77,6 @@ async function buildAlbumList() {
     );
     musicBase.albumList.push(newAlbum);
   }
-  console.log(musicBase.albumList);
 }
 async function buildTrackList() {
   const fetchedTrackList = await musicBase.getList(`${endpoint}/tracks`);
@@ -100,7 +95,6 @@ function globalListeners() {
 
   document.querySelector("#sort-select").addEventListener("change", () => {
     let sortValue = document.querySelector("#sort-select").value;
-    console.log(sortValue);
     if (sortValue == "name") {
       let sortBy = "name";
       let sortDir = "asc";
@@ -144,17 +138,14 @@ function search_data() {
   }
   // SHOW search result if any
   if (search_results_track.length > 0) {
-    console.log("track results");
     trackList.items = search_results_track;
     trackList.render();
   }
   if (search_results_artist.length > 0) {
-    console.log("artist results");
     artistList.items = search_results_artist;
     artistList.render();
   }
   if (search_results_album.length > 0) {
-    console.log("album results");
     albumList.items = search_results_album;
     albumList.render();
   } else {
