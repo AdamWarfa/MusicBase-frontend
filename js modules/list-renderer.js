@@ -7,13 +7,8 @@ export default class ListRenderer {
 
   render() {
     this.container.innerHTML = "";
-    const filteredList = this.items.filter(
-      (item) =>
-        this.filterValue === "all" ||
-        item[this.filterProperty] == this.filterValue
-    );
 
-    for (const item of filteredList) {
+    for (const item of this.items) {
       const renderer = new this.itemRenderer();
       renderer.item = item;
       const html = renderer.render();
