@@ -28,8 +28,16 @@ export default class ListRenderer {
     if (this.filterProperty == "") {
       filteredList = renderers;
     } else {
-      filteredList = renderers.filter((item) => item.item[this.filterProperty].toLowerCase().includes(this.filterValue.toLowerCase()));
+      console.log(this.filterProperty);
+      filteredList = renderers.filter((item) => {
+        const propertyValue = item.item[this.filterProperty];
+        if (propertyValue) {
+          return propertyValue.toLowerCase().includes(this.filterValue.toLowerCase());
+        }
+        return false; // Return false if the property is undefined
+      });
     }
+
     for (const renderer of filteredList) {
       try {
         const html = renderer.render();
@@ -62,6 +70,8 @@ export default class ListRenderer {
   }
 
   filter(filterProperty, filterValue) {
+    console.log(filterProperty.toLowerCase(), filterValue);
+
     this.filterProperty = filterProperty;
     this.filterValue = filterValue;
 

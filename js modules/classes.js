@@ -9,6 +9,7 @@ class Artist {
     this.shortDescription = shortDescription;
     this.albums;
   }
+
   async addArtistsToAlbums(artistId) {
     const fetchedList = await musicBase.getList(`${endpoint}/artists/${artistId}/albums`);
 
@@ -32,7 +33,6 @@ class Artist {
     return albumIdList;
   }
 }
-
 class Album {
   constructor(name, id, cover, yearPublished, oldTracks) {
     this.name = name;
@@ -41,14 +41,25 @@ class Album {
     this.yearPublished = yearPublished;
     this.tracks = oldTracks;
   }
-  // setTracks() {
-  //   const newTracks = [];
-  //   for (let track of this.tracks) {
-  //     const newTrack = new Track(track.trackName, track.trackId);
-  //     newTracks.push(newTrack);
-  //   }
-  //   this.tracks = newTracks;
-  // }
+  async addTracksToAlbum() {
+    const trackIdList = this.findTrackId(this.tracks);
+    const trackByAlbumList = [];
+    for (const trackId of trackIdList) {
+      const foundTrack = musicBase.trackList.find((track) => track.trackId == trackId);
+      trackByAlbumList.push(foundTrack);
+    }
+
+    this.tracks = trackByAlbumList;
+  }
+
+  findTrackId(albumTrackList) {
+    const trackIdList = [];
+    for (let item of albumTrackList) {
+      const trackId = item.trackId;
+      trackIdList.push(trackId);
+    }
+    return trackIdList;
+  }
 
   getArtistId() {
     const artist = musicBase.artistList.find((artist) => artist.albums.includes(this));
@@ -65,16 +76,18 @@ class Track {
     this.name = name;
     this.trackId = id;
   }
-  // getAlbumId() {
-  //   const album = musicBase.albumList.find((album) => album.tracks == this);
-  //   console.log(this);
-  //   console.log(musicBase.albumList);
-  //   console.log(album);
-  //   return album.albumId;
-  // }
-  // setAlbumId(albumId) {
-  //   this.albumId = albumId;
-  // }
+
+  getAlbumId() {
+    try {
+      const album = musicBase.albumList.find((album) => album.tracks.includes(this));
+      return album.albumId;
+    } catch (error) {
+      console.log("error with " + this.name);
+    }
+  }
+  setAlbumId(albumId) {
+    this.albumId = albumId;
+  }
 }
 
 class MusicBase {

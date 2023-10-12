@@ -10,7 +10,7 @@ body {
   display: none;
 }
 
-#grid{
+#grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
@@ -82,7 +82,7 @@ form {
   height: 200px;
 }
 
-.gridTitle{
+.gridTitle {
   font-size: 20px;
   font-weight: 700;
   margin: 10px 0;
@@ -95,6 +95,10 @@ button {
   border: none;
   padding: 5px 10px;
   cursor: pointer;
+}
+
+#btn-reload {
+  margin-left: 10px;
 }
 
 select {
@@ -144,90 +148,4 @@ input {
   font-weight: 700;
   text-decoration: underline;
   cursor: pointer;
-}
-
-.scroll-up-hide {
-  animation: scrollUpHide;
-  animation-duration: 0.5s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-}
-
-.scroll-up-show {
-  animation: scrollUpShow;
-  animation-duration: 0.5s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-}
-
-.scroll-down-show {
-  animation: scrollDownShow;
-  animation-duration: 0.5s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-}
-
-.scroll-down-hide {
-  animation: scrollDownHide;
-  animation-duration: 0.5s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-}
-
-@keyframes scrollUpHide {
-  0% {
-    visibility: visible;
-  }
-
-  99% {
-    visibility: visible;
-  }
-  100% {
-    transform: translate(0, -400px);
-    visibility: hidden;
-  }
-}
-
-@keyframes scrollUpShow {
-  0% {
-    visibility: hidden;
-    transform: translate(0, 100px);
-  }
-
-  1% {
-    display: block;
-    visibility: visible;
-  }
-  100% {
-    transform: translate(0, -350px);
-    visibility: visible;
-  }
-}
-
-@keyframes scrollDownShow {
-  0% {
-    transform: translate(0, -400px);
-    visibility: hidden;
-  }
-  1% {
-    visibility: visible;
-  }
-  100% {
-    visibility: visible;
-  }
-}
-
-@keyframes scrollDownHide {
-  0% {
-    transform: translate(0, -350px);
-    visibility: visible;
-  }
-
-  99% {
-    visibility: visible;
-  }
-  100% {
-    transform: translate(0, 100px);
-    visibility: hidden;
-  }
 }

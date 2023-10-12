@@ -4,7 +4,7 @@ import { trackList, albumList, artistList } from "./main.js";
 export class AlbumRenderer extends ItemRenderer {
   render() {
     const album = this.item;
-    const html = /*html*/ `
+    const html = /*html*/ ` 
         <article class="grid-box">
         <h2 class="album-name">${album.name}</h2>
         <img class="album-image" src=${album.albumCover} alt=""/>
@@ -17,13 +17,13 @@ export class AlbumRenderer extends ItemRenderer {
 
   postRender(element) {
     element.addEventListener("click", () => {
-      console.log(this.item);
+      console.log(this.item.albumId.toLowerCase());
     });
 
-    // document.querySelector(".grid-box:last-child button").addEventListener("click", () => {
-    //   trackList.filter("name", this.item.name);
-    //   artistList.filter("name", this.item.name);
-    //   albumList.filter("artistId", this.item.artistId);
-    // });
+    document.querySelector(".grid-box:last-child button").addEventListener("click", () => {
+      trackList.filter("albumId", this.item.albumId);
+      artistList.filter("name", this.item.name);
+      albumList.filter("name", this.item.name);
+    });
   }
 }

@@ -25,13 +25,12 @@ async function initApp() {
   await buildArtistList();
 
   for (let album of musicBase.albumList) {
-    // album.setTracks();
     album.setArtistId(album.getArtistId());
   }
 
-  // for (let track of musicBase.trackList) {
-  //   track.getAlbumId();
-  // }
+  for (let track of musicBase.trackList) {
+    track.setAlbumId(track.getAlbumId());
+  }
 
   globalListeners();
 
@@ -54,6 +53,7 @@ async function buildArtistList() {
     musicBase.artistList.push(newArtist);
     await newArtist.addArtistsToAlbums(artist.id);
   }
+  console.log(musicBase.artistList);
 }
 
 async function buildAlbumList() {
@@ -61,7 +61,9 @@ async function buildAlbumList() {
   for (let album of fetchedAlbumList) {
     const newAlbum = new Album(album.albumTitle, album.id, album.albumCover, album.yearPublished, album.tracks);
     musicBase.albumList.push(newAlbum);
+    await newAlbum.addTracksToAlbum();
   }
+  console.log(musicBase.albumList);
 }
 async function buildTrackList() {
   const fetchedTrackList = await musicBase.getList(`${endpoint}/tracks`);
@@ -70,6 +72,7 @@ async function buildTrackList() {
 
     musicBase.trackList.push(newTrack);
   }
+  console.log(musicBase.trackList);
 }
 
 //EventListeners
