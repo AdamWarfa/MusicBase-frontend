@@ -40,13 +40,4 @@ export default class ListRenderer {
     }
     this.render();
   }
-  filter(filterProperty, filterValue) {
-    if (filterProperty.includes(":") && filterValue === undefined) {
-      [this.filterProperty, this.filterValue] = filterProperty.split(":");
-    } else {
-      this.filterProperty = filterProperty;
-      this.filterValue = filterValue;
-    }
-    this.render();
-  }
 }

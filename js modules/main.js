@@ -33,20 +33,37 @@ async function initApp() {
 
   // Vores MusicBase dele hedder trackList osv, og det gør vores kald til ListRenderer også. Ku være vi sku rename vores brug af ListRenderer til
   // noget andet som fx... ??
-  trackList = new ListRenderer(musicBase.trackList, "#tracks-grid-container", TrackRenderer);
+  trackList = new ListRenderer(
+    musicBase.trackList,
+    "#tracks-grid-container",
+    TrackRenderer
+  );
   trackList.render();
 
-  artistList = new ListRenderer(musicBase.artistList, "#artists-grid-container", ArtistRenderer);
+  artistList = new ListRenderer(
+    musicBase.artistList,
+    "#artists-grid-container",
+    ArtistRenderer
+  );
   artistList.render();
 
-  albumList = new ListRenderer(musicBase.albumList, "#albums-grid-container", AlbumRenderer);
+  albumList = new ListRenderer(
+    musicBase.albumList,
+    "#albums-grid-container",
+    AlbumRenderer
+  );
   albumList.render();
 }
 
 async function buildArtistList() {
   const fetchedArtistList = await musicBase.getList(`${endpoint}/artists`);
   for (let artist of fetchedArtistList) {
-    const newArtist = new Artist(artist.artistName, artist.id, artist.artistImage, artist.shortDescription);
+    const newArtist = new Artist(
+      artist.artistName,
+      artist.id,
+      artist.artistImage,
+      artist.shortDescription
+    );
     console.log(musicBase.artistList);
     musicBase.artistList.push(newArtist);
   }
@@ -55,7 +72,13 @@ async function buildArtistList() {
 async function buildAlbumList() {
   const fetchedAlbumList = await musicBase.getList(`${endpoint}/albums`);
   for (let album of fetchedAlbumList) {
-    const newAlbum = new Album(album.albumTitle, album.id, album.albumCover, album.yearPublished, album.tracks);
+    const newAlbum = new Album(
+      album.albumTitle,
+      album.id,
+      album.albumCover,
+      album.yearPublished,
+      album.tracks
+    );
     musicBase.albumList.push(newAlbum);
   }
   console.log(musicBase.albumList);
@@ -71,7 +94,9 @@ async function buildTrackList() {
 
 //EventListeners
 function globalListeners() {
-  document.querySelector("#input-search").addEventListener("keyup", (event) => searchAll(event.target.value));
+  document
+    .querySelector("#input-search")
+    .addEventListener("keyup", search_data);
 
   document.querySelector("#sort-select").addEventListener("change", () => {
     let sortValue = document.querySelector("#sort-select").value;
@@ -92,18 +117,49 @@ function globalListeners() {
   });
 }
 
-function searchAll(eventValue) {
-  const keysSomeArtist = ["artistName", "shortDescription"];
-  const keysSomeAlbums = ["albumTitle"];
-  const keysSomeTracks = ["trackName"];
-  const valuesSome = [eventValue];
+function search_data() {
+  // search INPUT string
+  const searchInput = document.querySelector("#input-search").value;
+  // make Regular Expression search VALUE - i for case insensetiv
+  const searchValue = new RegExp(`${searchInput}`, "i");
 
-  const resultSomeArtists = musicBase.artistList.filter((artist) => keysSomeArtist.some((key) => valuesSome.some((searchValue) => artist[key].toLowerCase().includes(searchValue.toLowerCase()))));
-  const resultSomeAlbums = musicBase.albumList.filter((album) => keysSomeAlbums.some((key) => valuesSome.some((searchValue) => album[key].toLowerCase().includes(searchValue.toLowerCase()))));
-  const resultSomeTracks = musicBase.trackList.filter((track) => keysSomeTracks.some((key) => valuesSome.some((searchValue) => track[key].toLowerCase().includes(searchValue.toLowerCase()))));
-  trackList.render(resultSomeTracks);
-  artistList.render(resultSomeArtists);
-  albumList.render(resultSomeAlbums);
+  // ------------ SEARCH WITH .FILTER() FROM GLOBAL ARRAY items[] -----------------
+  const search_results_track = musicBase.trackList.filter((track) =>
+    search_item(track)
+  );
+  const search_results_artist = musicBase.artistList.filter((artist) =>
+    search_item(artist)
+  );
+  const search_results_album = musicBase.albumList.filter((album) =>
+    search_item(album)
+  );
+
+  // search through json object properties
+  function search_item(dataItem) {
+    for (let key in dataItem) {
+      if (searchValue.test(dataItem[key])) {
+        return dataItem;
+      }
+    }
+  }
+  // SHOW search result if any
+  if (search_results_track.length > 0) {
+    console.log("track results");
+    trackList.items = search_results_track;
+    trackList.render();
+  }
+  if (search_results_artist.length > 0) {
+    console.log("artist results");
+    artistList.items = search_results_artist;
+    artistList.render();
+  }
+  if (search_results_album.length > 0) {
+    console.log("album results");
+    albumList.items = search_results_album;
+    albumList.render();
+  } else {
+    console.log("no results");
+  }
 }
 
 export default endpoint;
