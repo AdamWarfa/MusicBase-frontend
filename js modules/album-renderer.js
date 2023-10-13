@@ -22,8 +22,9 @@ export class AlbumRenderer extends ItemRenderer {
 
     document.querySelector(".grid-box:last-child button").addEventListener("click", () => {
       trackList.filter("albumId", this.item.albumId);
-      artistList.filter("name", this.item.name);
+      artistList.filter("artistId", this.item.artistId);
       albumList.filter("name", this.item.name);
+      window.scrollTo(0, 0);
     });
   }
 }

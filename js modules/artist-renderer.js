@@ -27,6 +27,7 @@ export class ArtistRenderer extends ItemRenderer {
       trackList.filter("name", this.item.name);
       artistList.filter("name", this.item.name);
       albumList.filter("artistId", this.item.artistId);
+      window.scrollTo(0, 0);
     });
   }
 }
