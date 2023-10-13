@@ -1,5 +1,5 @@
 import ItemRenderer from "./itemrenderer.js";
-import { trackList, albumList, artistList } from "./main.js";
+import { trackList, albumList, artistList } from "../main.js";
 
 export class AlbumRenderer extends ItemRenderer {
   render() {
