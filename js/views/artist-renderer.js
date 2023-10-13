@@ -1,4 +1,5 @@
 import ItemRenderer from "./itemrenderer.js";
+import { trackList, albumList, artistList } from "../main.js";
 
 export class ArtistRenderer extends ItemRenderer {
   render() {
@@ -11,6 +12,7 @@ export class ArtistRenderer extends ItemRenderer {
               <img class="artist-image" src=${artist.artistImage} alt="" />
               <p class="artist-desc">${artist.shortDescription}</p>
             </div>
+            <button class="btn-connect">Albums by ${artist.name} </button>
 
         </article>
 `;
@@ -20,6 +22,12 @@ export class ArtistRenderer extends ItemRenderer {
   postRender(element) {
     element.addEventListener("click", () => {
       console.log(this.item);
+    });
+    document.querySelector(".grid-box:last-child button").addEventListener("click", () => {
+      trackList.filter("name", this.item.name);
+      artistList.filter("name", this.item.name);
+      albumList.filter("artistId", this.item.artistId);
+      window.scrollTo(0, 0);
     });
   }
 }

@@ -24,17 +24,29 @@ export default class ListRenderer {
 
     let renderers = this.renderers;
 
-    // const filteredList = renderers.filter((renderer) => renderer.item.active == "Ja");
-    // console.log(filteredList);
+    let filteredList;
+    if (this.filterProperty == "") {
+      filteredList = renderers;
+    } else {
+      console.log(this.filterProperty);
+      filteredList = renderers.filter((item) => {
+        const propertyValue = item.item[this.filterProperty];
+        if (propertyValue) {
+          return propertyValue.toLowerCase().includes(this.filterValue.toLowerCase());
+        }
+        return false; // Return false if the property is undefined
+      });
+    }
 
-    for (const renderer of renderers) {
+    for (const renderer of filteredList) {
       try {
         const html = renderer.render();
         this.container.insertAdjacentHTML("beforeend", html);
 
-        const element = this.container.lastElementChild;
-
         if (renderer.postRender) {
+          const element = this.container.lastElementChild;
+          // const button = document.querySelector(".btn-connect").lastElementChild;
+
           renderer.postRender(element);
         }
       } catch (error) {
@@ -44,7 +56,6 @@ export default class ListRenderer {
   }
 
   sort(sortBy, sortDir) {
-    console.log(this.items);
     if (sortBy == "name" && sortDir == "asc") {
       this.items.sort((a, b) => a.name.localeCompare(b.name));
       this.sortDir = "asc";
@@ -57,28 +68,14 @@ export default class ListRenderer {
     this.clear();
     this.render();
   }
+
+  filter(filterProperty, filterValue) {
+    console.log(filterProperty.toLowerCase(), filterValue);
+
+    this.filterProperty = filterProperty;
+    this.filterValue = filterValue;
+
+    this.clear();
+    this.render();
+  }
 }
-
-//   sort(sortBy, sortDir) {
-//     try {
-//       if (this.sortBy === sortBy && this.sortDir === "asc") {
-//         list = list.reverse();
-//         this.sortDir = "desc";
-//       } else if (this.sortBy === sortBy && this.sortDir === "desc") {
-//         list = list.reverse();
-//         this.sortDir = "asc";
-//       } else {
-//         if (sortType == "number") {
-//           list.sort((a, b) => a[`${sortBy}`] - b[`${sortBy}`]);
-//         } else if (sortType == "string") {
-//           list.sort((a, b) => a[`${sortBy}`].localeCompare(b[`${sortBy}`]));
-//         }
-//       }
-
-//       console.log(list);
-//     } catch (error) {}
-//     this.sortBy = sortBy;
-//     this.clear();
-
-//     this.render();
-//   }
