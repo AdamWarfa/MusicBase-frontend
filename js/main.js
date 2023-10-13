@@ -14,9 +14,9 @@ window.addEventListener("load", initApp);
 //Globale variable
 const endpoint = "https://musicbasebe.azurewebsites.net";
 const musicBase = new MusicBase();
-let trackList;
-let artistList;
-let albumList;
+let renderedTracks;
+let renderedArtists;
+let renderedAlbums;
 
 //Fetcher kunstnerlisten og aktivierer eventListeners
 async function initApp() {
@@ -36,14 +36,14 @@ async function initApp() {
 
   // Vores MusicBase dele hedder trackList osv, og det gør vores kald til ListRenderer også. Ku være vi sku rename vores brug af ListRenderer til
   // noget andet som fx... ??
-  trackList = new ListRenderer(musicBase.trackList, "#tracks-grid-container", TrackRenderer);
-  trackList.render();
+  renderedTracks = new ListRenderer(musicBase.trackList, "#tracks-grid-container", TrackRenderer);
+  renderedTracks.render();
 
-  artistList = new ListRenderer(musicBase.artistList, "#artists-grid-container", ArtistRenderer);
-  artistList.render();
+  renderedArtists = new ListRenderer(musicBase.artistList, "#artists-grid-container", ArtistRenderer);
+  renderedArtists.render();
 
-  albumList = new ListRenderer(musicBase.albumList, "#albums-grid-container", AlbumRenderer);
-  albumList.render();
+  renderedAlbums = new ListRenderer(musicBase.albumList, "#albums-grid-container", AlbumRenderer);
+  renderedAlbums.render();
 }
 
 //EventListeners
@@ -55,15 +55,15 @@ function globalListeners() {
     if (sortValue == "name") {
       let sortBy = "name";
       let sortDir = "asc";
-      albumList.sort(sortBy, sortDir);
-      artistList.sort(sortBy, sortDir);
-      trackList.sort(sortBy, sortDir);
+      renderedAlbums.sort(sortBy, sortDir);
+      renderedArtists.sort(sortBy, sortDir);
+      renderedTracks.sort(sortBy, sortDir);
     } else if (sortValue == "reverse") {
       let sortBy = "name";
       let sortDir = "desc";
-      albumList.sort(sortBy, sortDir);
-      artistList.sort(sortBy, sortDir);
-      trackList.sort(sortBy, sortDir);
+      renderedAlbums.sort(sortBy, sortDir);
+      renderedArtists.sort(sortBy, sortDir);
+      renderedTracks.sort(sortBy, sortDir);
     }
   });
 
@@ -71,12 +71,12 @@ function globalListeners() {
   document.querySelector("#input-search").addEventListener("input", (event) => {
     const searchValue = event.target.value;
 
-    trackList.filter("name", searchValue);
+    renderedTracks.filter("name", searchValue);
 
-    albumList.filter("name", searchValue);
+    renderedAlbums.filter("name", searchValue);
 
-    artistList.filter("name", searchValue);
+    renderedArtists.filter("name", searchValue);
   });
 }
 
-export { musicBase, endpoint, trackList, artistList, albumList };
+export { musicBase, endpoint, renderedTracks as trackList, renderedArtists as artistList, renderedAlbums as albumList };
