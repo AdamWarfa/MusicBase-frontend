@@ -6,7 +6,6 @@ import { ArtistRenderer } from "./views/artist-renderer.js";
 import { AlbumRenderer } from "./views/album-renderer.js";
 import ListRenderer from "./views/list-renderer.js";
 // import { ItemRenderer } from "./itemrenderer.js";
-import { Artist, Album, Track } from "./models/classes.js";
 import { MusicBase } from "./models/music-base.js";
 
 //Kør startfunktionen automatisk på load
