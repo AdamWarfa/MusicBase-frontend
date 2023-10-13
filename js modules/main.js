@@ -114,7 +114,7 @@ function createTrackClicked() {
     "beforeend" /*HTML*/,
     `
     <h2>Create Track</h2>
-    <form action="" method="POST" id="form-create-track">
+    <form method="POST" id="form-create-track">
     <select id="create-track-user-select" name="artist"></select>
     <input type="text" name="trackName" id="input-track-name" placeholder="Track Name" required>
     <button id="submit-create-track-btn" type="submit">Add</button>
@@ -127,18 +127,28 @@ function createTrackClicked() {
     document.querySelector("#create-track-user-select").insertAdjacentHTML("beforeend" /*HTML*/, `<option value="${item.id}">${item.name}</option>`);
   });
   document.querySelector("#cancel-create-track-btn").addEventListener("click", closeDialog);
-  document.querySelector("#cancel-submit-track-btn").addEventListener("click", trackSubmitted);
+  document.querySelector("#form-create-track").addEventListener("submit", trackSubmitted);
 }
 
-/// DU ER HER MADS. Næste skridt er at fixe backend til at kunne tage imod artistId til junction update. Du skal nok køre det lokalt..
 function trackSubmitted(event) {
   event.preventDefault();
+  console.log(event.target);
 
   const form = event.target;
   const trackName = form.trackName.value;
-  const artistId = form.artistId.value;
+  // Problemet er denne...
+  const artistId = form.artist.value;
 
-  musicsBase.createTrack(trackName, artistId);
+  // musicsBase.createTrack(trackName, artistId);
+
+  const newTrack = {
+    trackName: trackName,
+    artistId: artistId,
+  };
+
+  const json = JSON.stringify(newTrack);
+
+  console.log(json);
 }
 
 function closeDialog() {
