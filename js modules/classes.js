@@ -72,9 +72,10 @@ class MusicBase {
     return response;
   }
 
-  async createTrack(name) {
+  async createTrack(name, artistId) {
     const newTrack = {
       trackName: name,
+      artistId: artistId,
     };
     const json = JSON.stringify(newTrack);
 
