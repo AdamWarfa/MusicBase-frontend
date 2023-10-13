@@ -13,7 +13,7 @@ class MusicBase {
     for (let artist of fetchedArtistList) {
       const newArtist = new Artist(artist.artistName, artist.id, artist.artistImage, artist.shortDescription);
       this.artistList.push(newArtist);
-      await newArtist.addArtistsToAlbums(artist.id);
+      await newArtist.setAlbums(artist.id);
     }
     console.log(this.artistList);
   }
@@ -23,7 +23,7 @@ class MusicBase {
     for (let album of fetchedAlbumList) {
       const newAlbum = new Album(album.albumTitle, album.id, album.albumCover, album.yearPublished, album.tracks);
       this.albumList.push(newAlbum);
-      await newAlbum.addTracksToAlbum();
+      await newAlbum.setTracks();
     }
     console.log(this.albumList);
   }

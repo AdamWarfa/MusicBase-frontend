@@ -10,7 +10,11 @@ class Artist {
     this.albums;
   }
 
-  async addArtistsToAlbums(artistId) {
+  getAlbums() {
+    return this.albums;
+  }
+
+  async setAlbums(artistId) {
     const fetchedList = await musicBase.getList(`${endpoint}/artists/${artistId}/albums`);
 
     const albumIdList = this.findAlbumId(fetchedList);
@@ -41,7 +45,12 @@ class Album {
     this.yearPublished = yearPublished;
     this.tracks = oldTracks;
   }
-  async addTracksToAlbum() {
+
+  getTracks() {
+    return this.tracks;
+  }
+
+  async setTracks() {
     const trackIdList = this.findTrackId(this.tracks);
     const trackByAlbumList = [];
     for (const trackId of trackIdList) {
