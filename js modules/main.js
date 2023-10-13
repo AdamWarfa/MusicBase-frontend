@@ -72,6 +72,7 @@ async function buildTrackList() {
 //EventListeners
 function globalListeners() {
   document.querySelector("#input-search").addEventListener("keyup", (event) => searchAll(event.target.value));
+  document.querySelector("#create-track-btn").addEventListener("click", createTrackClicked);
 
   document.querySelector("#sort-select").addEventListener("change", () => {
     let sortValue = document.querySelector("#sort-select").value;
@@ -104,6 +105,33 @@ function searchAll(eventValue) {
   trackList.render(resultSomeTracks);
   artistList.render(resultSomeArtists);
   albumList.render(resultSomeAlbums);
+}
+
+function createTrackClicked() {
+  document.querySelector("#div-create-track").innerHTML = "";
+  document.querySelector("#dialog-create-track").showModal();
+  document.querySelector("#div-create-track").insertAdjacentHTML(
+    "beforeend" /*HTML*/,
+    `
+    <h2>Create Track</h2>
+    <form action="" method="POST" id="form-create-track">
+    <select id="create-track-user-select"></select>
+    <button id="submit-create-track-btn" type="submit">Add</button>
+    <button id="cancel-create-track-btn" type="button">Cancel</button>
+    </form>
+    `
+  );
+
+  artistList.items.forEach((item) => {
+    document.querySelector("#create-track-user-select").insertAdjacentHTML("beforeend" /*HTML*/, `<option value="${item.id}">${item.name}</option>`);
+  });
+  document.querySelector("#form-create-track").insertAdjacentHTML("beforeend" /*HTML*/, `<input type="text" name="trackName" id="input-track-name" placeholder="Track Name" required>`);
+  document.querySelector("#cancel-create-track-btn").addEventListener("click", closeDialog);
+}
+
+function closeDialog() {
+  // Lukker dialog, fjerner formørkelse
+  document.querySelector("#dialog-create-track").close();
 }
 
 export default endpoint;
