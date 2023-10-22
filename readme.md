@@ -36,4 +36,10 @@ Dette projekt er opbygget med fokus på god kodestruktur og principper som separ
 
   - `rest-services.js`: Ansvarlig for at vores rest-api og kontakten til backend.
 
+## Backend
+
+Repository til backenden findes [her](https://github.com/yousradiab/MusicBase-backend).
+
+den hostede backend kan findes på [azure](https://musicbasebe.azurewebsites.net/)
+
 Dette er en grundlæggende oversigt over projektets struktur.
