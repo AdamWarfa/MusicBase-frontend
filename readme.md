@@ -40,6 +40,6 @@ Dette projekt er opbygget med fokus på god kodestruktur og principper som separ
 
 Repository til backenden findes [her](https://github.com/yousradiab/MusicBase-backend).
 
-den hostede backend kan findes på [azure](https://musicbasebe.azurewebsites.net/)
+den hostede backend kan findes på [azure](https://musicbasebe.azurewebsites.net/).
 
 Dette er en grundlæggende oversigt over projektets struktur.
