@@ -1,4 +1,4 @@
-import ItemRenderer from "./itemrenderer.js";
+import ItemRenderer from "./ItemRenderer.js";
 
 export class TrackRenderer extends ItemRenderer {
   render() {

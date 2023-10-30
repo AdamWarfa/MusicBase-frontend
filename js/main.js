@@ -1,12 +1,12 @@
 "use strict";
 
 //Importering af funktioner/variable
-import { TrackRenderer } from "./views/track-renderer.js";
-import { ArtistRenderer } from "./views/artist-renderer.js";
-import { AlbumRenderer } from "./views/album-renderer.js";
+import { TrackRenderer } from "./views/TrackRenderer.js";
+import { ArtistRenderer } from "./views/ArtistRenderer.js";
+import { AlbumRenderer } from "./views/AlbumRenderer.js";
 import ListRenderer from "./views/list-renderer.js";
 // import { ItemRenderer } from "./itemrenderer.js";
-import { MusicBase } from "./models/music-base.js";
+import { MusicBase } from "./models/MusicBase.js";
 
 //Kør startfunktionen automatisk på load
 window.addEventListener("load", initApp);
