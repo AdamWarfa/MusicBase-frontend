@@ -4,8 +4,7 @@
 import { TrackRenderer } from "./views/TrackRenderer.js";
 import { ArtistRenderer } from "./views/ArtistRenderer.js";
 import { AlbumRenderer } from "./views/AlbumRenderer.js";
-import ListRenderer from "./views/list-renderer.js";
-// import { ItemRenderer } from "./itemrenderer.js";
+import ListRenderer from "./views/ListRenderer.js";
 import { MusicBase } from "./models/MusicBase.js";
 
 //Kør startfunktionen automatisk på load

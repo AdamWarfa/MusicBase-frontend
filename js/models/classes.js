@@ -46,11 +46,11 @@ class Album {
     this.tracks = oldTracks;
   }
 
-  getTracks() {
+  get Tracks() {
     return this.tracks;
   }
 
-  async setTracks() {
+  setTracks() {
     const trackIdList = this.findTrackId(this.tracks);
     const trackByAlbumList = [];
     for (const trackId of trackIdList) {
