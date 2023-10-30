@@ -1,5 +1,7 @@
-import { Artist, Album, Track } from "./classes.js";
-import { endpoint } from "../main.js";
+import { Artist } from "./Artist.js";
+import { Album } from "./Album.js";
+import { Track } from "./Track.js";
+import { endpoint } from "../controller/Controller.js";
 
 class MusicBase {
   constructor() {
